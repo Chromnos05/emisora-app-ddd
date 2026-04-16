@@ -1,0 +1,13 @@
+{
+    "name": "chromnos05/emisora-app-ddd",
+    "description": "Emisora CRUDL with DDD and Hexagonal Architecture",
+    "type": "project",
+    "require": {
+        "php": ">=8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}
