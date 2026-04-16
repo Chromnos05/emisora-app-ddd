@@ -13,6 +13,7 @@ use App\Application\UseCase\Emisora\ReadEmisoraUseCase;
 use App\Application\UseCase\Emisora\UpdateEmisoraUseCase;
 use App\Infrastructure\Http\Controller\AuthController;
 use App\Infrastructure\Http\Controller\EmisoraController;
+use App\Infrastructure\Http\Controller\PublicController;
 use App\Infrastructure\Http\Router;
 use App\Infrastructure\Persistence\PdoEmisoraRepository;
 
@@ -45,6 +46,8 @@ $emisoraController = new EmisoraController(
     $createEmisora, $readEmisora, $updateEmisora, $deleteEmisora, $listEmisoras
 );
 
+$publicController = new PublicController($listEmisoras, $readEmisora);
+
 // Dependencias Auth
 $resetPassword = new RequestPasswordResetUseCase();
 $registerUser = new RegisterUserUseCase($pdo);
@@ -53,10 +56,8 @@ $authController = new AuthController($pdo, $resetPassword, $registerUser);
 // Router
 $router = new Router();
 
-$router->add('GET', '/', function() {
-    header('Location: /emisoras');
-    exit;
-});
+$router->add('GET', '/', [$publicController, 'index']);
+$router->add('GET', '/radio/{id}', [$publicController, 'show']);
 
 // Auth Routes
 $router->add('GET', '/login', [$authController, 'login']);
