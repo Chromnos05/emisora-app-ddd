@@ -53,6 +53,24 @@ $resetPassword = new RequestPasswordResetUseCase();
 $registerUser = new RegisterUserUseCase($pdo);
 $authController = new AuthController($pdo, $resetPassword, $registerUser);
 
+/**
+ * Helper global para generar URLs absolutas dinámicas que funcionen en subdirectorios de XAMPP.
+ */
+function url(string $path = '/'): string {
+    $scriptPath = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
+    $basePath = str_replace('\\', '/', dirname($scriptPath));
+    
+    // Si estamos en la raíz, basePath será '/' o '.', lo normalizamos a ''
+    if ($basePath === '/' || $basePath === '.') {
+        $basePath = '';
+    }
+    
+    // Aseguramos que el path empiece con /
+    $path = '/' . ltrim($path, '/');
+    
+    return $basePath . $path;
+}
+
 // Router
 $router = new Router();
 
@@ -71,7 +89,7 @@ $router->add('POST', '/registro', [$authController, 'register']);
 // Middleware básico
 $checkAuth = function() {
     if (!isset($_SESSION['user_id'])) {
-        header('Location: /login');
+        header('Location: ' . url('/login'));
         exit;
     }
 };
@@ -117,7 +135,7 @@ $uri = (string) parse_url($uri, PHP_URL_PATH);
 $scriptPath = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
 $basePath = str_replace('\\', '/', dirname($scriptPath));
 
-if ($basePath !== '/' && $basePath !== '' && str_starts_with($uri, $basePath)) {
+if ($basePath !== '/' && $basePath !== '.' && $basePath !== '' && str_starts_with($uri, $basePath)) {
     $uri = substr($uri, strlen($basePath));
 }
 
