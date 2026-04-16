@@ -23,10 +23,15 @@
                 </div>
             </div>
 
-            <div class="flex items-center justify-between">
-                <div class="text-sm">
+            <div class="flex flex-col space-y-3">
+                <div class="text-sm text-center">
                     <a href="/recuperar-password" class="font-medium text-indigo-600 hover:text-indigo-500">
                         ¿Olvidó su contraseña?
+                    </a>
+                </div>
+                <div class="text-sm text-center border-t pt-3 border-gray-200">
+                    <a href="/registro" class="font-medium text-indigo-600 hover:text-indigo-500">
+                        ¿No tienes cuenta? Regístrate aquí
                     </a>
                 </div>
             </div>

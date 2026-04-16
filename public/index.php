@@ -5,6 +5,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../autoload.php';
 
 use App\Application\UseCase\Auth\RequestPasswordResetUseCase;
+use App\Application\UseCase\Auth\RegisterUserUseCase;
 use App\Application\UseCase\Emisora\CreateEmisoraUseCase;
 use App\Application\UseCase\Emisora\DeleteEmisoraUseCase;
 use App\Application\UseCase\Emisora\ListEmisorasUseCase;
@@ -46,7 +47,8 @@ $emisoraController = new EmisoraController(
 
 // Dependencias Auth
 $resetPassword = new RequestPasswordResetUseCase();
-$authController = new AuthController($pdo, $resetPassword);
+$registerUser = new RegisterUserUseCase($pdo);
+$authController = new AuthController($pdo, $resetPassword, $registerUser);
 
 // Router
 $router = new Router();
@@ -62,6 +64,8 @@ $router->add('POST', '/login', [$authController, 'login']);
 $router->add('GET', '/logout', [$authController, 'logout']);
 $router->add('GET', '/recuperar-password', [$authController, 'forgotPassword']);
 $router->add('POST', '/recuperar-password', [$authController, 'forgotPassword']);
+$router->add('GET', '/registro', [$authController, 'register']);
+$router->add('POST', '/registro', [$authController, 'register']);
 
 // Middleware básico
 $checkAuth = function() {
