@@ -28,5 +28,5 @@ CREATE TABLE IF NOT EXISTS users (
 
 -- Insertar un usuario de prueba (contraseña: "admin123")
 INSERT INTO users (id, email, password_hash) 
-VALUES ('123e4567-e89b-12d3-a456-426614174000', 'admin@emisora.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi')
+VALUES ('123e4567-e89b-12d3-a456-426614174000', 'admin@emisora.com', '$2y$10$XLZMGJK9ZhTLZezWlsueo.eIYOJFdFc3TFf7WVwAqacXqTrHWUoRi')
 ON DUPLICATE KEY UPDATE email=email;
