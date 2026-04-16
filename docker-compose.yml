@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  web:
+    image: php:8.2-apache
+    container_name: emisora_web
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8080:80"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_NAME=emisora_app
+      - DB_USER=root
+      - DB_PASSWORD=root
+    depends_on:
+      - db
+    # Habilitar PDO_MySQL en el contenedor PHP y mod_rewrite para URLs amigables
+    command: >
+      bash -c "
+      docker-php-ext-install pdo pdo_mysql &&
+      a2enmod rewrite &&
+      apache2-foreground
+      "
+
+  db:
+    image: mysql:8.0
+    container_name: emisora_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: emisora_app
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
