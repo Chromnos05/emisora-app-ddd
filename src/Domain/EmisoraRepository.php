@@ -6,6 +6,10 @@ namespace App\Domain;
 
 use App\Domain\ValueObject\EmisoraId;
 
+/**
+ * Interfaz del Repositorio de Emisoras.
+ * Define el contrato para la persistencia de las estaciones de radio.
+ */
 interface EmisoraRepository
 {
     public function save(Emisora $emisora): void;

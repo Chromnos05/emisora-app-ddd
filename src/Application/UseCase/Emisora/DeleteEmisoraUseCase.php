@@ -8,6 +8,9 @@ use App\Domain\EmisoraRepository;
 use App\Domain\ValueObject\EmisoraId;
 use App\Domain\Exception\EmisoraNotFoundException;
 
+/**
+ * Caso de Uso para eliminar una emisora del sistema por su ID.
+ */
 class DeleteEmisoraUseCase
 {
     private EmisoraRepository $repository;

@@ -9,6 +9,9 @@ use App\Domain\EmisoraRepository;
 use App\Domain\ValueObject\EmisoraId;
 use App\Domain\Exception\EmisoraNotFoundException;
 
+/**
+ * Caso de Uso para recuperar la información detallada de una emisora específica.
+ */
 class ReadEmisoraUseCase
 {
     private EmisoraRepository $repository;

@@ -7,6 +7,10 @@ namespace App\Application\UseCase\Emisora;
 use App\Domain\Emisora;
 use App\Domain\EmisoraRepository;
 
+/**
+ * Caso de Uso para la creación de una nueva emisora.
+ * Valida los datos de entrada y persiste la entidad en el repositorio.
+ */
 class CreateEmisoraUseCase
 {
     private EmisoraRepository $repository;

@@ -11,6 +11,9 @@ use App\Domain\ValueObject\BandaFm;
 use App\Domain\ValueObject\EmisoraId;
 use App\Domain\Exception\EmisoraNotFoundException;
 
+/**
+ * Caso de Uso para actualizar los datos técnicos o informativos de una emisora existente.
+ */
 class UpdateEmisoraUseCase
 {
     private EmisoraRepository $repository;

@@ -5,6 +5,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../autoload.php';
 
 use App\Application\UseCase\Auth\RequestPasswordResetUseCase;
+use App\Application\UseCase\Auth\ResetPasswordUseCase;
 use App\Application\UseCase\Auth\RegisterUserUseCase;
 use App\Application\UseCase\Emisora\CreateEmisoraUseCase;
 use App\Application\UseCase\Emisora\DeleteEmisoraUseCase;
@@ -16,14 +17,16 @@ use App\Infrastructure\Http\Controller\EmisoraController;
 use App\Infrastructure\Http\Controller\PublicController;
 use App\Infrastructure\Http\Router;
 use App\Infrastructure\Persistence\PdoEmisoraRepository;
+use App\Infrastructure\Service\PHPMailerAdapter;
 
 session_start();
 
+// Configuración de base de datos
 $host = getenv('DB_HOST') ?: '127.0.0.1';
 $port = getenv('DB_PORT') ?: '3306';
 $db   = getenv('DB_NAME') ?: 'emisora_app';
 $user = getenv('DB_USER') ?: 'root';
-$pass = getenv('DB_PASSWORD') ?: ''; // XAMPP por defecto no usa contraseña para el usuario root
+$pass = getenv('DB_PASSWORD') ?: '';
 
 try {
     $pdo = new PDO("mysql:host=$host;port=$port;dbname=$db;charset=utf8mb4", $user, $pass, [
@@ -31,8 +34,12 @@ try {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ]);
 } catch (PDOException $e) {
-    die("Error de conexión a la base de datos. Por favor, asegúrate de levantar los servicios Docker o tener MySQL corriendo localmente.");
+    die("Error de conexión a la base de datos.");
 }
+
+// Cargar configuración de correo
+$mailConfig = require_once __DIR__ . '/../config/mail.php';
+$mailer = new PHPMailerAdapter($mailConfig);
 
 // Dependencias Emisora
 $emisoraRepo = new PdoEmisoraRepository($pdo);
@@ -49,25 +56,25 @@ $emisoraController = new EmisoraController(
 $publicController = new PublicController($listEmisoras, $readEmisora);
 
 // Dependencias Auth
-$resetPassword = new RequestPasswordResetUseCase();
+$requestReset = new RequestPasswordResetUseCase($pdo, $mailer);
+$completeReset = new ResetPasswordUseCase($pdo);
 $registerUser = new RegisterUserUseCase($pdo);
-$authController = new AuthController($pdo, $resetPassword, $registerUser);
+
+$authController = new AuthController(
+    $pdo, 
+    $requestReset, 
+    $registerUser, 
+    $completeReset
+);
 
 /**
- * Helper global para generar URLs absolutas dinámicas que funcionen en subdirectorios de XAMPP.
+ * Helper global para generar URLs absolutas dinámicas.
  */
 function url(string $path = '/'): string {
     $scriptPath = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
     $basePath = str_replace('\\', '/', dirname($scriptPath));
-    
-    // Si estamos en la raíz, basePath será '/' o '.', lo normalizamos a ''
-    if ($basePath === '/' || $basePath === '.') {
-        $basePath = '';
-    }
-    
-    // Aseguramos que el path empiece con /
+    if ($basePath === '/' || $basePath === '.') $basePath = '';
     $path = '/' . ltrim($path, '/');
-    
     return $basePath . $path;
 }
 
@@ -83,6 +90,8 @@ $router->add('POST', '/login', [$authController, 'login']);
 $router->add('GET', '/logout', [$authController, 'logout']);
 $router->add('GET', '/recuperar-password', [$authController, 'forgotPassword']);
 $router->add('POST', '/recuperar-password', [$authController, 'forgotPassword']);
+$router->add('GET', '/restablecer-password', [$authController, 'resetPassword']);
+$router->add('POST', '/restablecer-password', [$authController, 'resetPassword']);
 $router->add('GET', '/registro', [$authController, 'register']);
 $router->add('POST', '/registro', [$authController, 'register']);
 
@@ -127,11 +136,8 @@ $router->add('POST', '/emisoras/eliminar/{id}', function($id) use ($emisoraContr
 
 $method = $_SERVER['REQUEST_METHOD'];
 $uri = $_SERVER['REQUEST_URI'];
-
-// Eliminar el query string si existe para el ruteo
 $uri = (string) parse_url($uri, PHP_URL_PATH);
 
-// Ajuste para subdirectorios: eliminamos la parte de la URL que corresponde al folder del script
 $scriptPath = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
 $basePath = str_replace('\\', '/', dirname($scriptPath));
 
@@ -139,12 +145,10 @@ if ($basePath !== '/' && $basePath !== '.' && $basePath !== '' && str_starts_wit
     $uri = substr($uri, strlen($basePath));
 }
 
-// Eliminar "index.php" si aparece al inicio de la URI resultante
 if (str_starts_with($uri, '/index.php')) {
     $uri = substr($uri, strlen('/index.php'));
 }
 
-// Asegurar que la URI sea al menos /
 if (empty($uri) || $uri === '' || $uri === '/') {
     $uri = '/';
 }

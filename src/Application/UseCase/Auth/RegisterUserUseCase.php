@@ -7,6 +7,10 @@ namespace App\Application\UseCase\Auth;
 use PDO;
 use Exception;
 
+/**
+ * Caso de Uso para el registro de nuevos usuarios (Administradores u Oyentes).
+ * Gestiona la validación y el hashing de la contraseña.
+ */
 class RegisterUserUseCase
 {
     private PDO $connection;

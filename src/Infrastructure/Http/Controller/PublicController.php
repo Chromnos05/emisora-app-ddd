@@ -8,6 +8,10 @@ use App\Application\UseCase\Emisora\ListEmisorasUseCase;
 use App\Application\UseCase\Emisora\ReadEmisoraUseCase;
 use Exception;
 
+/**
+ * Controlador para la interfaz pública (Oyentes).
+ * Gestiona la visualización del catálogo y el detalle de las emisoras.
+ */
 class PublicController
 {
     public function __construct(

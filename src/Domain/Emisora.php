@@ -9,6 +9,10 @@ use App\Domain\ValueObject\BandaFm;
 use App\Domain\ValueObject\EmisoraId;
 use App\Domain\Exception\DomainException;
 
+/**
+ * Entidad de Dominio que representa una Emisora de Radio.
+ * Encapsula la lógica de negocio y las reglas de validación de una estación.
+ */
 class Emisora
 {
     private EmisoraId $id;
@@ -25,6 +29,21 @@ class Emisora
     private int $numProgramas;
     private int $numCiudades;
 
+    /**
+     * @param EmisoraId $id Identificador único
+     * @param string $nombre Nombre de la emisora
+     * @param int $canal Canal numérico
+     * @param BandaFm $bandaFm Frecuencia FM
+     * @param BandaAm $bandaAm Frecuencia AM
+     * @param int $numLocutores Cantidad de locutores
+     * @param string $genero Género radial
+     * @param string $horario Horario de emisión
+     * @param string|null $patrocinador Patrocinador oficial
+     * @param string $pais País de operación
+     * @param string|null $descripcion Descripción de la emisora
+     * @param int $numProgramas Cantidad de programas
+     * @param int $numCiudades Cobertura en ciudades
+     */
     public function __construct(
         EmisoraId $id,
         string $nombre,

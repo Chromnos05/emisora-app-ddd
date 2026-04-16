@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Http;
 
+/**
+ * Motor de ruteo simple para manejar peticiones HTTP.
+ * Permite registrar rutas y despacharlas a sus respectivos controladores.
+ */
 class Router
 {
     private array $routes = [];

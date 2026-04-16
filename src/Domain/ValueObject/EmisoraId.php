@@ -7,6 +7,10 @@ namespace App\Domain\ValueObject;
 use App\Domain\Exception\DomainException;
 use InvalidArgumentException;
 
+/**
+ * Value Object que representa el Identificador Único de una Emisora.
+ * Implementa un formato UUID v4 para garantizar la unicidad global.
+ */
 class EmisoraId
 {
     private string $id;

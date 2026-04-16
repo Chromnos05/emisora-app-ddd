@@ -6,6 +6,9 @@ namespace App\Domain\ValueObject;
 
 use App\Domain\Exception\DomainException;
 
+/**
+ * Value Object que representa una frecuencia en la banda AM.
+ */
 class BandaAm
 {
     private ?string $valor;

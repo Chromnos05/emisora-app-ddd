@@ -7,6 +7,9 @@ namespace App\Application\UseCase\Emisora;
 use App\Domain\Emisora;
 use App\Domain\EmisoraRepository;
 
+/**
+ * Caso de Uso para obtener el listado completo de emisoras registradas.
+ */
 class ListEmisorasUseCase
 {
     private EmisoraRepository $repository;

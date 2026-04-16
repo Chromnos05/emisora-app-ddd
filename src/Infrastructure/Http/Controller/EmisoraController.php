@@ -11,6 +11,10 @@ use App\Application\UseCase\Emisora\ReadEmisoraUseCase;
 use App\Application\UseCase\Emisora\UpdateEmisoraUseCase;
 use Exception;
 
+/**
+ * Controlador para la gestión administrativa de emisoras.
+ * Maneja las operaciones CRUD (Crear, Leer, Actualizar, Borrar) y el listado.
+ */
 class EmisoraController
 {
     public function __construct(

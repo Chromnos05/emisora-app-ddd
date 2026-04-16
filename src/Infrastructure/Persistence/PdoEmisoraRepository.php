@@ -11,6 +11,9 @@ use App\Domain\ValueObject\BandaFm;
 use App\Domain\ValueObject\EmisoraId;
 use PDO;
 
+/**
+ * Implementación concreta del repositorio de emisoras utilizando PDO y MySQL.
+ */
 class PdoEmisoraRepository implements EmisoraRepository
 {
     private PDO $connection;
