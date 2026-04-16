@@ -109,4 +109,26 @@ $router->add('POST', '/emisoras/eliminar/{id}', function($id) use ($emisoraContr
 
 $method = $_SERVER['REQUEST_METHOD'];
 $uri = $_SERVER['REQUEST_URI'];
+
+// Eliminar el query string si existe para el ruteo
+$uri = (string) parse_url($uri, PHP_URL_PATH);
+
+// Ajuste para subdirectorios: eliminamos la parte de la URL que corresponde al folder del script
+$scriptPath = str_replace('\\', '/', $_SERVER['SCRIPT_NAME']);
+$basePath = str_replace('\\', '/', dirname($scriptPath));
+
+if ($basePath !== '/' && $basePath !== '' && str_starts_with($uri, $basePath)) {
+    $uri = substr($uri, strlen($basePath));
+}
+
+// Eliminar "index.php" si aparece al inicio de la URI resultante
+if (str_starts_with($uri, '/index.php')) {
+    $uri = substr($uri, strlen('/index.php'));
+}
+
+// Asegurar que la URI sea al menos /
+if (empty($uri) || $uri === '' || $uri === '/') {
+    $uri = '/';
+}
+
 $router->dispatch($method, $uri);
