@@ -6,7 +6,7 @@
         <p class="mt-2 text-sm text-gray-700">Lista completa de todas las emisoras gestionadas en la plataforma.</p>
     </div>
     <div class="mt-4 sm:mt-0">
-        <a href="/emisoras/crear" class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto transition-colors">
+        <a href="<?= url('/emisoras/crear') ?>" class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:w-auto transition-colors">
             + Nueva Emisora
         </a>
     </div>
@@ -58,8 +58,8 @@
                                         <?= $emisora->numLocutores() ?>
                                     </td>
                                     <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                        <a href="/emisoras/editar/<?= $emisora->id()->value() ?>" class="text-indigo-600 hover:text-indigo-900 mr-4">Editar</a>
-                                        <form action="/emisoras/eliminar/<?= $emisora->id()->value() ?>" method="POST" class="inline-block" onsubmit="return confirm('¿Seguro que deseas eliminar esta emisora?');">
+                                        <a href="<?= url('/emisoras/editar/' . $emisora->id()->value()) ?>" class="text-indigo-600 hover:text-indigo-900 mr-4">Editar</a>
+                                        <form action="<?= url('/emisoras/eliminar/' . $emisora->id()->value()) ?>" method="POST" class="inline-block" onsubmit="return confirm('¿Seguro que deseas eliminar esta emisora?');">
                                             <button type="submit" class="text-red-600 hover:text-red-900">Eliminar</button>
                                         </form>
                                     </td>

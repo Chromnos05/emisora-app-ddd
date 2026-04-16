@@ -15,7 +15,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center">
-                    <a href="/emisoras" class="flex-shrink-0 font-bold text-xl tracking-tight">
+                    <a href="<?= url('/emisoras') ?>" class="flex-shrink-0 font-bold text-xl tracking-tight">
                         📻 RadioAdmin
                     </a>
                 </div>
@@ -23,7 +23,7 @@
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <div class="flex items-center space-x-4">
                             <span class="text-sm">Admin</span>
-                            <a href="/logout" class="bg-indigo-700 hover:bg-indigo-800 px-3 py-2 rounded-md text-sm font-medium transition-colors">Cerrar Sesión</a>
+                            <a href="<?= url('/logout') ?>" class="bg-indigo-700 hover:bg-indigo-800 px-3 py-2 rounded-md text-sm font-medium transition-colors">Cerrar Sesión</a>
                         </div>
                     <?php endif; ?>
                 </div>

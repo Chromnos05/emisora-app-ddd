@@ -43,7 +43,7 @@
                 Radio<span class="text-indigo-400">Stream</span>
             </h1>
             <div>
-                <a href="/login" class="text-sm font-medium text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-full transition-colors border border-slate-700">
+                <a href="<?= url('/login') ?>" class="text-sm font-medium text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-full transition-colors border border-slate-700">
                     Acceso Radiodifusores
                 </a>
             </div>
@@ -73,20 +73,20 @@
         <?php else: ?>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 <?php foreach ($emisoras as $emisora): ?>
-                    <a href="/radio/<?= htmlspecialchars($emisora['id']) ?>" class="block group">
+                    <a href="<?= url('/radio/' . htmlspecialchars($emisora->id()->value())) ?>" class="block group">
                         <article class="glass-card rounded-2xl p-6 h-full flex flex-col relative overflow-hidden">
                             <!-- Decorational Gradient Blob -->
                             <div class="absolute -right-10 -top-10 w-32 h-32 bg-indigo-500/20 rounded-full blur-2xl group-hover:bg-purple-500/30 transition-colors"></div>
                             
                             <div class="mb-4">
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-800 text-indigo-300 border border-slate-700 mb-3">
-                                    <?= htmlspecialchars($emisora['genero']) ?>
+                                    <?= htmlspecialchars($emisora->genero()) ?>
                                 </span>
                                 <h3 class="text-2xl font-bold text-white group-hover:text-indigo-200 transition-colors">
-                                    <?= htmlspecialchars($emisora['nombre']) ?>
+                                    <?= htmlspecialchars($emisora->nombre()) ?>
                                 </h3>
                                 <p class="text-slate-400 text-sm mt-1 line-clamp-2">
-                                    <?= htmlspecialchars($emisora['descripcion'] ?? 'Sin descripción disponible.') ?>
+                                    <?= htmlspecialchars($emisora->descripcion() ?? 'Sin descripción disponible.') ?>
                                 </p>
                             </div>
                             
@@ -95,10 +95,10 @@
                                     <p class="text-xs text-slate-500 mb-1">Frecuencia</p>
                                     <div class="flex items-center gap-2">
                                         <span class="font-mono text-lg font-semibold text-indigo-400">
-                                            <?= htmlspecialchars($emisora['banda_fm'] ?? $emisora['banda_am']) ?>
+                                            <?= htmlspecialchars($emisora->bandaFm()->value() ?? $emisora->bandaAm()->value()) ?>
                                         </span>
                                         <span class="text-xs text-slate-400 uppercase">
-                                            <?= !empty($emisora['banda_fm']) ? 'FM' : 'AM' ?>
+                                            <?= !empty($emisora->bandaFm()->value()) ? 'FM' : 'AM' ?>
                                         </span>
                                     </div>
                                 </div>

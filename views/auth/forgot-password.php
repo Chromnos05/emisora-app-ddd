@@ -11,7 +11,7 @@
             </p>
         </div>
         
-        <form class="mt-8 space-y-6" action="/recuperar-password" method="POST">
+        <form class="mt-8 space-y-6" action="<?= url('/recuperar-password') ?>" method="POST">
             <div class="rounded-md shadow-sm -space-y-px">
                 <div>
                     <label for="email-address" class="sr-only">Correo Electrónico</label>
@@ -21,7 +21,7 @@
 
             <div class="flex items-center justify-between">
                 <div class="text-sm">
-                    <a href="/login" class="font-medium text-indigo-600 hover:text-indigo-500">
+                    <a href="<?= url('/login') ?>" class="font-medium text-indigo-600 hover:text-indigo-500">
                         Volver a Inicio de Sesión
                     </a>
                 </div>

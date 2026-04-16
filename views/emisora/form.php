@@ -1,12 +1,12 @@
 <?php 
 $isEdit = isset($emisora) && $emisora !== null;
-$actionUrl = $isEdit ? "/emisoras/editar/" . $emisora->id()->value() : "/emisoras/crear";
+$actionUrl = $isEdit ? url("/emisoras/editar/" . $emisora->id()->value()) : url("/emisoras/crear");
 $btnText = $isEdit ? "Actualizar Emisora" : "Guardar Emisora";
 ob_start(); 
 ?>
 
 <div class="mb-6">
-    <a href="/emisoras" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">← Volver a la lista</a>
+    <a href="<?= url('/emisoras') ?>" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">← Volver a la lista</a>
 </div>
 
 <div class="bg-white shadow overflow-hidden sm:rounded-lg mb-8 max-w-4xl mx-auto">
@@ -134,7 +134,7 @@ ob_start();
             </div>
 
             <div class="pt-5 border-t border-gray-200 flex justify-end">
-                <a href="/emisoras" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <a href="<?= url('/emisoras') ?>" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Cancelar
                 </a>
                 <button type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
