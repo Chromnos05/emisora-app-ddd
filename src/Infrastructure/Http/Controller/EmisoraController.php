@@ -33,14 +33,14 @@ class EmisoraController
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             try {
                 $this->createUseCase->execute($_POST);
-                header('Location: /emisoras');
+                header('Location: ' . url('/emisoras'));
                 exit;
             } catch (Exception $e) {
                 $error = $e->getMessage();
             }
         }
         $emisora = null;
-        require __DIR__ . '/../../../../views/emisora/form.php';
+        require __DIR__ . '/../../../../views/auth/../emisora/form.php';
     }
 
     public function edit(string $id): void
@@ -49,15 +49,15 @@ class EmisoraController
         try {
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $this->updateUseCase->execute($id, $_POST);
-                header('Location: /emisoras');
+                header('Location: ' . url('/emisoras'));
                 exit;
             }
             $emisora = $this->readUseCase->execute($id);
-            require __DIR__ . '/../../../../views/emisora/form.php';
+            require __DIR__ . '/../../../../views/auth/../emisora/form.php';
         } catch (Exception $e) {
             $error = $e->getMessage();
             $emisoras = $this->listUseCase->execute();
-            require __DIR__ . '/../../../../views/emisora/list.php';
+            require __DIR__ . '/../../../../views/auth/../emisora/list.php';
         }
     }
 
@@ -70,7 +70,7 @@ class EmisoraController
                 // handle error silently or set flash message
             }
         }
-        header('Location: /emisoras');
+        header('Location: ' . url('/emisoras'));
         exit;
     }
 }

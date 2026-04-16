@@ -31,7 +31,7 @@ class AuthController
             if ($user && password_verify($password, $user['password_hash'])) {
                 session_start();
                 $_SESSION['user_id'] = $user['id'];
-                header('Location: /emisoras');
+                header('Location: ' . url('/emisoras'));
                 exit;
             } else {
                 $error = 'Credenciales inválidas.';
@@ -82,7 +82,7 @@ class AuthController
                     if ($user) {
                         session_start();
                         $_SESSION['user_id'] = $user['id'];
-                        header('Location: /emisoras');
+                        header('Location: ' . url('/emisoras'));
                         exit;
                     }
                 } catch (Exception $e) {
@@ -98,7 +98,7 @@ class AuthController
     {
         session_start();
         session_destroy();
-        header('Location: /login');
+        header('Location: ' . url('/login'));
         exit;
     }
 }
